@@ -9,14 +9,22 @@ class LocationRepositoryPlatform extends LocationRepository {
   @override
   Future<num> calculateDistanceToUser(
       double userLatitude, double userLongitude) async {
+
     try {
       await LocationPermissions().requestPermissions();
       final geoLocator = Geolocator();
       if (await geoLocator.isLocationServiceEnabled()) {
-        final position = await geoLocator.getLastKnownPosition(
+        Position position = await geoLocator.getLastKnownPosition(
             desiredAccuracy: LocationAccuracy.high);
-
-        print('POSITION $position');
+        if (position == null) {
+          Future(() async {
+            position = await geoLocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.lowest);
+          }).timeout(Duration(seconds: 5), onTimeout: () async {
+            position = await geoLocator.getLastKnownPosition(
+                desiredAccuracy: LocationAccuracy.high);
+          });
+        }
 
         final double distanceMeters = await geoLocator.distanceBetween(
             userLatitude, userLongitude, position.latitude, position.longitude);
