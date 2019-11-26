@@ -48,16 +48,16 @@ class _UserDetailPageState extends State<UserDetailPage> {
                 if (state is CalculateDistanceSuccessState) {
                   return Text(
                       '${widget._user.firstName} is ${state.distance} km away from you!');
-                } else if (state is CalculateDistanceErrorState) {
+                }
+                if (state is CalculateDistanceErrorState) {
                   final error = state.error;
                   if (error is GpsNotEnabledError) {
                     return const Text('Enable gps and try again');
                   } else {
                     return const Text('Permissions not provided');
                   }
-                } else {
-                  return const CircularProgressIndicator();
                 }
+                return const CircularProgressIndicator();
               },
             )
           ],
