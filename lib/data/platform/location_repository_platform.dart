@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong/latlong.dart';
 import 'package:lecture_2_2/domain/error/gps_not_enabled_error.dart';
 import 'package:lecture_2_2/domain/error/permission_not_granted.dart';
 import 'package:lecture_2_2/domain/repository/location_repository.dart';
@@ -17,10 +16,12 @@ class LocationRepositoryPlatform extends LocationRepository {
         final position = await geoLocator.getLastKnownPosition(
             desiredAccuracy: LocationAccuracy.high);
 
-        return Distance().as(
-            LengthUnit.Kilometer,
-            LatLng(position.latitude, position.longitude),
-            LatLng(userLatitude, userLongitude));
+        print('POSITION $position');
+
+        final double distanceMeters = await geoLocator.distanceBetween(
+            userLatitude, userLongitude, position.latitude, position.longitude);
+
+        return distanceMeters / 1000;
       } else {
         throw GpsNotEnabledError();
       }

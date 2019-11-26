@@ -6,7 +6,6 @@ import 'package:lecture_2_2/domain/repository/location_repository.dart';
 import 'package:lecture_2_2/presentation/pages/select_user/bloc/get_user_bloc.dart';
 import 'package:lecture_2_2/presentation/pages/select_user/select_user_page.dart';
 import 'package:lecture_2_2/presentation/pages/user_detail/bloc/user_detail_bloc.dart';
-import 'package:lecture_2_2/presentation/pages/user_detail/user_detail_page.dart';
 
 import 'data/server/user_repository_server.dart';
 import 'domain/repository/user_repository.dart';
@@ -38,11 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Powerful Tinder',
       theme: ThemeData.dark(),
-      initialRoute: SelectUserPage.PAGE_NAME,
-      routes: {
-        SelectUserPage.PAGE_NAME: (context) => SelectUserPage(),
-        UserDetailPage.PAGE_NAME: (context) => UserDetailPage()
-      },
+      home: SelectUserPage(),
     );
   }
 }

@@ -9,8 +9,6 @@ import 'bloc/get_user_event.dart';
 import 'bloc/get_user_state.dart';
 
 class SelectUserPage extends StatefulWidget {
-  static const String PAGE_NAME = '/';
-
   @override
   _SelectUserPageState createState() => _SelectUserPageState();
 }
@@ -28,33 +26,35 @@ class _SelectUserPageState extends State<SelectUserPage> {
       appBar: AppBar(
         title: const Text('Choose user'),
       ),
-      body: BlocBuilder<GetUserBloc, GetUserState>(
-        builder: (context, state) {
-          if (state is ErrorState) {
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  child: Center(
-                    child: const Text('Check your internet connection'),
+      body: SafeArea(
+        child: BlocBuilder<GetUserBloc, GetUserState>(
+          builder: (context, state) {
+            if (state is ErrorState) {
+              return Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Center(
+                      child: const Text('Check your internet connection'),
+                    ),
                   ),
-                ),
-                _buildButtons(state)
-              ],
-            );
-          } else if (state is SuccessState) {
-            final User user = state.user;
-            return Column(
-              children: <Widget>[
-                Expanded(child: _buildUserWidget(user)),
-                _buildButtons(state)
-              ],
-            );
-          } else {
-            return Center(
-              child: const CircularProgressIndicator(),
-            );
-          }
-        },
+                  _buildButtons(state)
+                ],
+              );
+            } else if (state is SuccessState) {
+              final User user = state.user;
+              return Column(
+                children: <Widget>[
+                  Expanded(child: _buildUserWidget(user)),
+                  _buildButtons(state)
+                ],
+              );
+            } else {
+              return Center(
+                child: const CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -118,7 +118,9 @@ class _SelectUserPageState extends State<SelectUserPage> {
 
   void _navigateToUserDetail(BuildContext context, GetUserState state) {
     if (state is SuccessState) {
-      Navigator.of(context).pushNamed(UserDetailPage.PAGE_NAME);
+      Navigator.of(context).push<void>(MaterialPageRoute(
+        builder: (context) => UserDetailPage(state.user),
+      ));
     }
   }
 

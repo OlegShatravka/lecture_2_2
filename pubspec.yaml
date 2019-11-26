@@ -13,7 +13,6 @@ dependencies:
   bloc: ^2.0.0
   dio: ^3.0.6
   geolocator: ^5.1.5
-  latlong: ^0.6.1
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
