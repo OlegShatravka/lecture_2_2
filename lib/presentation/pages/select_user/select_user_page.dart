@@ -40,7 +40,8 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   _buildButtons(state)
                 ],
               );
-            } else if (state is SuccessState) {
+            }
+            if (state is SuccessState) {
               final User user = state.user;
               return Column(
                 children: <Widget>[
@@ -48,11 +49,10 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   _buildButtons(state)
                 ],
               );
-            } else {
-              return Center(
-                child: const CircularProgressIndicator(),
-              );
             }
+            return Center(
+              child: const CircularProgressIndicator(),
+            );
           },
         ),
       ),
